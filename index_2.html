@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<meta name="theme-color" content="#0D47A1">
+<title>สตาร์มาร์ค แมนูแฟคเชอร์ริ่ง — ข้อมูลสินค้า</title>
+<link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;600;700;800&family=IBM+Plex+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --olive:   #6B8E23;
+  --lgreen:  #8BC34A;
+  --dblue:   #0D47A1;
+  --sky:     #29B6F6;
+  --blue:    #1E88E5;
+  --red:     #E53935;
+  --orange:  #FB8C00;
+  --yellow:  #FDD835;
+  --olive-lt:  #edf2e0;
+  --lgreen-lt: #f0f8e4;
+  --dblue-lt:  #e3eaf8;
+  --sky-lt:    #e3f6fd;
+  --blue-lt:   #e4f0fc;
+  --red-lt:    #fdeaea;
+  --orange-lt: #fff3e0;
+  --yellow-lt: #fffde7;
+  --bg:     #f5f8ff;
+  --card:   #ffffff;
+  --text:   #0f1829;
+  --text2:  #374151;
+  --text3:  #6b7280;
+  --border: #dde6f0;
+  --shadow: 0 4px 20px rgba(13,71,161,0.10);
+  --radius: 14px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Sarabun','IBM Plex Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;padding-bottom:48px}
+
+.hero{
+  background:linear-gradient(148deg, var(--dblue) 0%, #1565C0 45%, var(--blue) 100%);
+  padding:28px 20px 32px;
+  position:relative;
+  overflow:hidden;
+}
+.hero::before{content:'';position:absolute;width:240px;height:240px;border-radius:50%;
+  background:rgba(255,255,255,0.05);top:-90px;right:-70px;pointer-events:none}
+.hero::after{content:'';position:absolute;width:160px;height:160px;border-radius:50%;
+  background:rgba(139,195,74,0.10);bottom:-60px;left:-40px;pointer-events:none}
+.hero-in{position:relative;z-index:1;max-width:500px;margin:0 auto}
+
+.hero-title{font-size:30px;font-weight:800;color:#fff;line-height:1.15}
+.hero-en{display:block;font-size:13px;font-weight:400;color:rgba(255,255,255,.72);margin-top:5px;font-family:'IBM Plex Sans',sans-serif}
+
+.scan-badge{
+  display:inline-flex;align-items:center;gap:7px;margin-top:14px;
+  background:rgba(255,255,255,0.12);border:1px solid rgba(255,255,255,.2);
+  padding:6px 15px;border-radius:22px;font-size:11px;color:rgba(255,255,255,.9);
+}
+.sdot{width:7px;height:7px;border-radius:50%;background:var(--lgreen);flex-shrink:0;animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.35}}
+
+.accent-bar{display:flex;height:6px;}
+.ab-1{flex:1;background:var(--olive)}
+.ab-2{flex:1;background:var(--lgreen)}
+.ab-3{flex:1;background:var(--dblue)}
+.ab-4{flex:1;background:var(--sky)}
+.ab-5{flex:1;background:var(--blue)}
+.ab-6{flex:1;background:var(--red)}
+.ab-7{flex:1;background:var(--orange)}
+.ab-8{flex:1;background:var(--yellow)}
+
+.content{max-width:500px;margin:0 auto;padding:18px 16px}
+.cdots{display:flex;gap:5px;justify-content:center;margin:6px 0 16px}
+.cdot{width:9px;height:9px;border-radius:50%}
+
+.card{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);border:1px solid var(--border);margin-bottom:14px;overflow:hidden}
+.ch{padding:10px 16px;display:flex;align-items:center;gap:10px;border-bottom:1px solid var(--border)}
+.chi{width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.chi svg{width:17px;height:17px}
+.cht{font-weight:700;font-size:13px}
+.chs{font-size:11px;font-family:'IBM Plex Sans',sans-serif;margin-top:1px}
+.cb{padding:14px 16px}
+
+.c-date .ch{background:var(--sky-lt)}
+.c-date .chi{background:var(--sky)}
+.c-date .chi svg{color:#fff}
+.c-date .cht{color:#0277a8}
+.c-date .chs{color:#0277a8}
+
+.c-factory .ch{background:var(--lgreen-lt)}
+.c-factory .chi{background:var(--olive)}
+.c-factory .chi svg{color:#fff}
+.c-factory .cht{color:#4a6318}
+.c-factory .chs{color:#4a6318}
+
+.c-prod .ch{background:var(--orange-lt)}
+.c-prod .chi{background:var(--orange)}
+.c-prod .chi svg{color:#fff}
+.c-prod .cht{color:#bf6800}
+.c-prod .chs{color:#bf6800}
+
+.date-row{display:flex;align-items:center;gap:14px;padding:4px 0}
+.date-num{font-size:46px;font-weight:800;color:var(--dblue);line-height:1;font-family:'IBM Plex Sans',sans-serif}
+.date-side{}
+.date-month{font-size:21px;font-weight:700;color:var(--text2)}
+.date-year{font-size:13px;color:var(--text3);margin-top:3px}
+.date-en{font-size:12px;color:var(--text3);margin-top:9px;padding-top:9px;border-top:1px dashed var(--border);font-family:'IBM Plex Sans',sans-serif}
+
+.irow{padding:9px 0;border-bottom:1px solid var(--border)}
+.irow:last-child{border-bottom:none;padding-bottom:0}
+.irow:first-child{padding-top:0}
+.ilb{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;color:var(--text3);margin-bottom:3px;font-family:'IBM Plex Sans',sans-serif}
+.ith{font-size:14px;font-weight:600;color:var(--text);line-height:1.55}
+.ien{font-size:12px;color:var(--text3);line-height:1.55;font-family:'IBM Plex Sans',sans-serif;margin-top:2px}
+
+.prod-pill{display:inline-flex;align-items:center;gap:6px;background:var(--orange-lt);color:#bf6800;border-radius:9px;padding:5px 13px;font-weight:700;font-size:14px;margin-bottom:6px}
+.lot-tag{display:inline-flex;align-items:center;gap:4px;background:var(--sky-lt);color:#0277a8;border-radius:7px;padding:3px 11px;font-size:12px;font-weight:600;margin-left:6px;font-family:'IBM Plex Sans',sans-serif}
+
+.tel-chip{display:flex;align-items:center;justify-content:center;gap:9px;background:var(--blue-lt);border:1px solid #a8ccf5;border-radius:11px;padding:10px 14px;text-decoration:none;color:var(--dblue);font-weight:700;font-size:17px;margin-top:7px;transition:background .15s}
+.tel-chip:hover{background:#c4dcf0}
+.tel-chip svg{width:19px;height:19px;flex-shrink:0}
+
+.map-link{display:flex;align-items:center;gap:6px;padding:8px 0;color:var(--blue);font-size:12px;font-weight:600;text-decoration:none;margin-top:3px}
+.map-link svg{width:14px;height:14px;flex-shrink:0}
+
+.visit-btn{
+  display:flex;align-items:center;justify-content:center;gap:10px;
+  width:100%;padding:17px;
+  background:linear-gradient(135deg, var(--dblue) 0%, var(--blue) 100%);
+  color:#fff;border-radius:var(--radius);text-decoration:none;
+  font-weight:800;font-size:16px;
+  box-shadow:0 7px 24px rgba(13,71,161,0.36);
+  margin-bottom:12px;border:none;cursor:pointer;
+  font-family:'Sarabun',sans-serif;transition:all .2s;letter-spacing:.3px;
+}
+.visit-btn:hover{transform:translateY(-2px);box-shadow:0 11px 30px rgba(13,71,161,0.44)}
+.visit-btn svg{width:20px;height:20px;flex-shrink:0}
+.vsub{display:block;font-size:11px;font-weight:400;opacity:.82;font-family:'IBM Plex Sans',sans-serif}
+
+.social-section{
+  background:var(--card);border-radius:var(--radius);
+  box-shadow:var(--shadow);border:1px solid var(--border);
+  margin-bottom:14px;overflow:hidden;
+}
+.social-header{
+  padding:10px 16px;display:flex;align-items:center;gap:10px;
+  border-bottom:1px solid var(--border);
+  background:linear-gradient(135deg,#1877f2 0%,#0c5dbf 100%);
+}
+.social-header-icon{
+  width:32px;height:32px;border-radius:8px;
+  background:rgba(255,255,255,.2);
+  display:flex;align-items:center;justify-content:center;flex-shrink:0;
+}
+.social-header-icon svg{width:18px;height:18px;color:#fff}
+.social-header-title{font-weight:700;font-size:13px;color:#fff}
+.social-header-sub{font-size:11px;color:rgba(255,255,255,.75);font-family:'IBM Plex Sans',sans-serif;margin-top:1px}
+.social-body{padding:14px 16px}
+.social-label{font-size:11px;color:var(--text3);font-weight:600;text-transform:uppercase;letter-spacing:.5px;margin-bottom:12px;font-family:'IBM Plex Sans',sans-serif}
+.fb-pages{display:flex;flex-direction:column;gap:10px}
+.fb-page-btn{
+  display:flex;align-items:center;gap:13px;
+  padding:13px 15px;
+  background:#f0f4ff;
+  border:1.5px solid #c8d8f8;
+  border-radius:12px;
+  text-decoration:none;
+  transition:all .18s;
+  cursor:pointer;
+}
+.fb-page-btn:hover{
+  background:var(--blue);border-color:var(--blue);
+  transform:translateY(-2px);box-shadow:0 6px 20px rgba(30,136,229,0.35);
+}
+.fb-page-btn:hover .fb-icon-wrap{background:rgba(255,255,255,.25);}
+.fb-page-btn:hover .fb-name{color:#fff;}
+.fb-page-btn:hover .fb-desc{color:rgba(255,255,255,.78);}
+.fb-page-btn:hover .fb-arrow{color:#fff;opacity:.8;}
+.fb-icon-wrap{
+  width:40px;height:40px;border-radius:10px;
+  background:#1877f2;
+  display:flex;align-items:center;justify-content:center;
+  flex-shrink:0;transition:all .18s;
+}
+.fb-icon-wrap svg{width:22px;height:22px;color:#fff}
+.fb-text{flex:1;min-width:0}
+.fb-name{font-size:13px;font-weight:700;color:var(--dblue);line-height:1.3;transition:color .18s}
+.fb-desc{font-size:11px;color:var(--text3);margin-top:2px;font-family:'IBM Plex Sans',sans-serif;transition:color .18s;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.fb-arrow{color:var(--text3);transition:all .18s;flex-shrink:0}
+.fb-arrow svg{width:16px;height:16px}
+
+.footer{text-align:center;font-size:11px;color:var(--text3);margin-top:4px;padding-top:14px;border-top:1px dashed var(--border);font-family:'IBM Plex Sans',sans-serif;line-height:1.75}
+.footer a{color:var(--blue);text-decoration:none}
+.hidden{display:none!important}
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="hero-in">
+
+    <!-- โลโก้ + ข้อความบริษัท -->
+    <div style="display:flex;align-items:center;gap:16px;margin-bottom:18px">
+      <div style="flex-shrink:0">
+        <img src="data:image/png;base64,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"
+             alt="Starmark Kitchen Co., Ltd."
+             style="height:64px;max-width:180px;object-fit:contain;display:block;
+                    background:#ffffff;padding:8px 14px;border-radius:10px;
+                    box-shadow:0 2px 12px rgba(0,0,0,0.18)">
+      </div>
+      <div>
+        <div style="font-size:16px;font-weight:800;color:#fff;letter-spacing:.3px;line-height:1.4">บริษัท สตาร์มาร์ค แมนูแฟคเชอร์ริ่ง จำกัด</div>
+        <div style="font-size:12px;font-weight:400;color:rgba(255,255,255,.78);margin-top:3px;font-family:'IBM Plex Sans',sans-serif">Starmark Kitchen Co., Ltd.</div>
+        <div style="font-size:11px;font-weight:400;color:rgba(255,255,255,.52);margin-top:2px;font-family:'IBM Plex Sans',sans-serif">Quality &amp; Traceability</div>
+      </div>
+    </div>
+
+    <!-- TITLE -->
+    <div class="hero-title">
+      ข้อมูลสินค้า
+      <span class="hero-en">Product Label Information</span>
+    </div>
+
+    <!-- SCAN BADGE -->
+    <div class="scan-badge">
+      <span class="sdot"></span>
+      <span id="scan-ts">กำลังโหลดข้อมูล...</span>
+    </div>
+
+  </div>
+</div>
+
+<div class="accent-bar">
+  <div class="ab-1"></div><div class="ab-2"></div><div class="ab-3"></div>
+  <div class="ab-4"></div><div class="ab-5"></div><div class="ab-6"></div>
+  <div class="ab-7"></div><div class="ab-8"></div>
+</div>
+
+<div class="content">
+
+  <div class="cdots">
+    <div class="cdot" style="background:#6B8E23"></div>
+    <div class="cdot" style="background:#8BC34A"></div>
+    <div class="cdot" style="background:#0D47A1"></div>
+    <div class="cdot" style="background:#29B6F6"></div>
+    <div class="cdot" style="background:#1E88E5"></div>
+    <div class="cdot" style="background:#E53935"></div>
+    <div class="cdot" style="background:#FB8C00"></div>
+    <div class="cdot" style="background:#FDD835"></div>
+  </div>
+
+  <div class="card c-prod hidden" id="prod-card">
+    <div class="ch">
+      <div class="chi">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M20.59 13.41l-7.17 7.17a2 2 0 01-2.83 0L2 12V2h10l8.59 8.59a2 2 0 010 2.82z"/>
+          <circle cx="7" cy="7" r="1.5" fill="currentColor" stroke="none"/>
+        </svg>
+      </div>
+      <div>
+        <div class="cht">ข้อมูลสินค้า / Product</div>
+        <div class="chs">Product Details</div>
+      </div>
+    </div>
+    <div class="cb" id="prod-body"></div>
+  </div>
+
+  <div class="card c-date">
+    <div class="ch">
+      <div class="chi">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <rect x="3" y="4" width="18" height="18" rx="2"/>
+          <line x1="16" y1="2" x2="16" y2="6"/>
+          <line x1="8" y1="2" x2="8" y2="6"/>
+          <line x1="3" y1="10" x2="21" y2="10"/>
+        </svg>
+      </div>
+      <div>
+        <div class="cht">วันที่ผลิต / Manufacturing Date</div>
+        <div class="chs">Production Date</div>
+      </div>
+    </div>
+    <div class="cb">
+      <div id="date-display" class="date-row"></div>
+    </div>
+  </div>
+
+  <div class="card c-factory">
+    <div class="ch">
+      <div class="chi">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/>
+          <polyline points="9,22 9,12 15,12 15,22"/>
+        </svg>
+      </div>
+      <div>
+        <div class="cht">โรงงานผลิต / Factory</div>
+        <div class="chs">Manufacturing Facility</div>
+      </div>
+    </div>
+    <div class="cb">
+      <div class="irow">
+        <div class="ilb">บริษัท / Company</div>
+        <div class="ith">บริษัท สตาร์มาร์ค แมนูแฟคเชอร์ริ่ง จำกัด</div>
+        <div class="ien">Starmark Kitchen Co., Ltd.</div>
+      </div>
+      <div class="irow">
+        <div class="ilb">ชื่อโรงงาน / Factory Name</div>
+        <div class="ith">นิคมอุตสาหกรรมสมุทรสาคร</div>
+        <div class="ien">Samut Sakhon Industrial Estate</div>
+      </div>
+      <div class="irow">
+        <div class="ilb">ที่อยู่ / Address</div>
+        <div class="ith">
+          1/109-110 หมู่ 2 นิคมอุตสาหกรรมสมุทรสาคร<br>
+          ถนนพระราม 2 ตำบลท่าทราย<br>
+          อำเภอเมืองสมุทรสาคร จังหวัดสมุทรสาคร 74000
+        </div>
+        <div class="ien" style="margin-top:6px">
+          1/109-110 Moo 2, Samut Sakhon Industrial Estate,<br>
+          Rama 2 Road, Tha Sai Sub-district,<br>
+          Mueang Samut Sakhon, Samut Sakhon 74000, Thailand
+        </div>
+        <a class="map-link" href="https://maps.google.com/?q=Samut+Sakhon+Industrial+Estate+Thailand" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="10" r="3"/>
+            <path d="M12 2a8 8 0 00-8 8c0 5.4 7 12 8 12s8-6.6 8-12a8 8 0 00-8-8z"/>
+          </svg>
+          ดูแผนที่ Google Maps
+        </a>
+      </div>
+      <div class="irow">
+        <div class="ilb">โทรศัพท์ / Telephone</div>
+        <a class="tel-chip" href="tel:021141956">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 10.8 19.79 19.79 0 012 2.22 2 2 0 014 .02h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 7.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 14.92z"/>
+          </svg>
+          02 114 1956
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <a class="visit-btn" href="https://www.starmark.co.th/" target="_blank" rel="noopener">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <circle cx="12" cy="12" r="10"/>
+      <line x1="2" y1="12" x2="22" y2="12"/>
+      <path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10A15.3 15.3 0 0112 2z"/>
+    </svg>
+    <div>
+      เยี่ยมชมเว็บไซต์ Starmark
+      <span class="vsub">Visit Our Website — www.starmark.co.th</span>
+    </div>
+  </a>
+
+  <div class="social-section">
+    <div class="social-header">
+      <div class="social-header-icon">
+        <svg viewBox="0 0 24 24" fill="currentColor">
+          <path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/>
+        </svg>
+      </div>
+      <div>
+        <div class="social-header-title">ติดตาม Starmark บน Facebook</div>
+        <div class="social-header-sub">Follow us on Facebook</div>
+      </div>
+    </div>
+    <div class="social-body">
+      <div class="social-label">เพจของเรา / Our Pages</div>
+      <div class="fb-pages">
+        <a class="fb-page-btn" href="https://www.facebook.com/share/18zBFyhWue/" target="_blank" rel="noopener">
+          <div class="fb-icon-wrap"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg></div>
+          <div class="fb-text">
+            <div class="fb-name">Starmark Works Space</div>
+            <div class="fb-desc">facebook.com/StarmarkWorksSpace</div>
+          </div>
+          <div class="fb-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div>
+        </a>
+        <a class="fb-page-btn" href="https://www.facebook.com/share/1B1uYeVKhv/" target="_blank" rel="noopener">
+          <div class="fb-icon-wrap"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg></div>
+          <div class="fb-text">
+            <div class="fb-name">Starmark Kitchen</div>
+            <div class="fb-desc">facebook.com/StarmarkKitchen</div>
+          </div>
+          <div class="fb-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div>
+        </a>
+        <a class="fb-page-btn" href="https://www.facebook.com/share/1BEk8epGCq/" target="_blank" rel="noopener">
+          <div class="fb-icon-wrap"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg></div>
+          <div class="fb-text">
+            <div class="fb-name">Starmark Interior</div>
+            <div class="fb-desc">facebook.com/StarmarkInterior</div>
+          </div>
+          <div class="fb-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer">
+    <div class="cdots" style="margin-bottom:10px">
+      <div class="cdot" style="background:#6B8E23"></div>
+      <div class="cdot" style="background:#8BC34A"></div>
+      <div class="cdot" style="background:#0D47A1"></div>
+      <div class="cdot" style="background:#29B6F6"></div>
+      <div class="cdot" style="background:#1E88E5"></div>
+      <div class="cdot" style="background:#E53935"></div>
+      <div class="cdot" style="background:#FB8C00"></div>
+      <div class="cdot" style="background:#FDD835"></div>
+    </div>
+    <p><strong>บริษัท สตาร์มาร์ค แมนูแฟคเชอร์ริ่ง จำกัด</strong></p>
+    <p>Starmark Kitchen Co., Ltd.</p>
+    <p style="margin-top:5px">ผลิตภัณฑ์ทุกชิ้นผ่านการตรวจสอบคุณภาพ</p>
+    <p>Every product is quality certified.</p>
+    <p style="margin-top:9px;color:#9ca3af">Scanned: <span id="scan-footer">—</span></p>
+  </div>
+
+</div>
+
+<script>
+const TM=['มกราคม','กุมภาพันธ์','มีนาคม','เมษายน','พฤษภาคม','มิถุนายน',
+          'กรกฎาคม','สิงหาคม','กันยายน','ตุลาคม','พฤศจิกายน','ธันวาคม'];
+const EM=['January','February','March','April','May','June',
+          'July','August','September','October','November','December'];
+const EMS=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+
+function parseDate(s){
+  if(!s)return null;
+  let d,m,y;
+  if(/^\d{4}-\d{2}-\d{2}$/.test(s)){[y,m,d]=s.split('-').map(Number);return{d,m,y};}
+  if(/^\d{1,2}\/\d{1,2}\/\d{4}$/.test(s)){[d,m,y]=s.split('/').map(Number);return{d,m,y};}
+  if(/^\d{1,2}-\d{1,2}-\d{4}$/.test(s)){[d,m,y]=s.split('-').map(Number);return{d,m,y};}
+  const r=s.match(/^(\d{1,2})-([A-Za-z]{3,})-(\d{2,4})$/);
+  if(r){d=+r[1];m=EMS.findIndex(x=>x.toLowerCase()===r[2].toLowerCase().slice(0,3))+1;y=+r[3];if(y<100)y+=2000;return{d,m,y};}
+  return null;
+}
+
+function getParams(){
+  const p={};
+  const qs=(window.location.search||'').slice(1)||(window.location.hash.split('?')[1]||'');
+  if(!qs)return p;
+  qs.split('&').forEach(part=>{const[k,v]=part.split('=');if(k)p[decodeURIComponent(k)]=decodeURIComponent((v||'').replace(/\+/g,' '));});
+  return p;
+}
+
+function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+
+function render(){
+  const p=getParams();
+  const now=new Date();
+  const timeStr=now.toLocaleTimeString('th-TH',{hour:'2-digit',minute:'2-digit'})+' น. '+now.toLocaleDateString('th-TH',{day:'numeric',month:'long',year:'numeric'});
+  document.getElementById('scan-ts').textContent='สแกนเมื่อ '+timeStr;
+  document.getElementById('scan-footer').textContent=now.toLocaleString('th-TH');
+
+  const dt=parseDate(p.date||p.d||'');
+  const dEl=document.getElementById('date-display');
+  if(dt){
+    const thY=dt.y+543;
+    dEl.innerHTML=`<div class="date-num">${String(dt.d).padStart(2,'0')}</div>
+       <div class="date-side">
+         <div class="date-month">${TM[dt.m-1]}</div>
+         <div class="date-year">พ.ศ. ${thY} &nbsp;·&nbsp; ค.ศ. ${dt.y}</div>
+         <div class="date-en">${EM[dt.m-1]} ${String(dt.d).padStart(2,'0')}, ${dt.y}</div>
+       </div>`;
+  } else {
+    dEl.innerHTML=`<div style="color:var(--text3);font-size:13px;padding:6px 0">ไม่ระบุวันที่ผลิต / Manufacturing date not specified</div>`;
+  }
+
+  const prod=p.product||p.p||'';
+  const lot=p.lot||p.l||'';
+  const pc=document.getElementById('prod-card');
+  if(prod||lot){
+    pc.classList.remove('hidden');
+    let h='';
+    if(prod) h+=`<div class="prod-pill"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20.59 13.41l-7.17 7.17a2 2 0 01-2.83 0L2 12V2h10l8.59 8.59a2 2 0 010 2.82z"/><circle cx="7" cy="7" r="1.5" fill="currentColor" stroke="none"/></svg>${esc(prod)}</div>`;
+    if(lot) h+=`<span class="lot-tag">Lot: ${esc(lot)}</span>`;
+    h+=`<div style="margin-top:9px;font-size:11px;color:var(--text3);font-family:'IBM Plex Sans',sans-serif">Product Name / ชื่อสินค้า</div>`;
+    document.getElementById('prod-body').innerHTML=h;
+  }
+}
+render();
+</script>
+</body>
+</html>
